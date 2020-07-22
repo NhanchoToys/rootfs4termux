@@ -37,7 +37,8 @@ jobs:
         rm -f termux-symlink.py
         cd ../../../../..
         pwd
-        # tar -czvf build/aarch64.tar.gz data
-        # rm -rf data
+        tar -czvf aarch64.tar.gz data
+        mv aarch64.tar.gz build
+        rm -rf data
     outputs:
       termux-aarch64-rootfs.tar.gz: build/aarch64.tar.gz
