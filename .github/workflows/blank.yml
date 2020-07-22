@@ -52,4 +52,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: termux-aarch64-rootfs.tar.gz
-        path: termux/build/aarch64.tar.gz
+        path: ./termux/build/aarch64.tar.gz
