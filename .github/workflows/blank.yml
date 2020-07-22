@@ -36,9 +36,11 @@ jobs:
         python3 termux-symlink.py
         rm -f termux-symlink.py
         cd ../../../../..
-        pwd
         tar -czvf aarch64.tar.gz data
         mv aarch64.tar.gz build
         rm -rf data
-    outputs:
-      termux-aarch64-rootfs.tar.gz: build/aarch64.tar.gz
+    - name: Upload artifacts
+      uses: actions/upload-artifacts@v1
+      with:
+        name: termux-aarch64-rootfs.tar.gz
+        path: termux/build/aarch64.tar.gz
