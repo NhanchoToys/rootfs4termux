@@ -27,6 +27,6 @@ jobs:
         cd termux/data/data/com.termux/files
         mkdir home usr
         cd usr/
-        wget https://bintray.com/termux/bootstrap/download_file?file_path=bootstrap-aarch64-v${version}.zip
+        wget -Obootstrap-aarch64-v${version}.zip https://bintray.com/termux/bootstrap/download_file?file_path=bootstrap-aarch64-v${version}.zip
         unzip bootstrap-aarch64-v${version}.zip
         ls
