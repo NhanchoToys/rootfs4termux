@@ -9,7 +9,7 @@ on:
     branches: [ termux ]
   pull_request:
     branches: [ termux ]
-  
+
 
 # A workflow run is made up of one or more jobs that can run 
 jobs:
@@ -17,18 +17,39 @@ jobs:
     runs-on: ubuntu-latest
     env:
       version: 25
-    defaults:
-      run: |
-        echo Start building.
-        mkdir -p termux/data/data/com.termux/files
-        cd termux/data/data/com.termux/files
-        mkdir home usr
-        cd usr/
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Run aarch64 build
       run: |
-        pwd
-        wget https://bintray.com/termux/bootstrap/download_file?file_path=bootstrap-aarch64-v${version}.zip
-        unzip bootstrap-aarch64-v${version}.zip 
+        echo Start building.
+        echo Create directories.
+        mkdir -p termux/data/data/com.termux/files/usr termux/build
+        cp termux-symlink.py termux/data/data/com.termux/files/usr/
+        cd termux/data/data/com.termux/files
+        mkdir home
+        cd usr/
+        echo Download bootstrap package.
+        wget -qObootstrap-aarch64-v${version}.zip https://bintray.com/termux/bootstrap/download_file?file_path=bootstrap-aarch64-v${version}.zip
+        echo Decompress bootstrap package.
+        unzip bootstrap-aarch64-v${version}.zip > /dev/null
+        echo Delete bootstrap package.
+        rm -f bootstrap-aarch64-v${version}.zip
+        echo Change file permission.
+        chmod +x bin/* lib/apt/methods/* lib/bash/* libexec/termux/*
+        chmod -x lib/bash/Makefile.inc
+        echo Process symlink.
+        python3 termux-symlink.py
+        rm -f termux-symlink.py
+        cd ../../../../..
+        echo Build package.
+        tar -czf aarch64.tar.gz data
+        mv aarch64.tar.gz build
+        echo Clean build cache.
+        rm -rf data
+        cd ..
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: termux-aarch64-rootfs.tar.gz
+        path: ./termux/build/aarch64.tar.gz
