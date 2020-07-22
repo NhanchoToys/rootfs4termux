@@ -24,7 +24,7 @@ jobs:
       run: |
         echo Start building.
         echo Create directories.
-        mkdir -p termux/data/data/com.termux/files/usr build
+        mkdir -p termux/data/data/com.termux/files/usr termux/build
         cp termux-symlink.py termux/data/data/com.termux/files/usr/
         cd termux/data/data/com.termux/files
         mkdir home
