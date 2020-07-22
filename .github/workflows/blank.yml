@@ -21,18 +21,24 @@ jobs:
       run: bash termux-build.sh i686
     - name: Run x86_64 build
       run: bash termux-build.sh x86_64
-    - name: Upload artifacts
+    - name: Upload artifacts of aarch64
       uses: actions/upload-artifact@v1
       with:
         name: termux-aarch64-rootfs.tar.gz
         path: ./termux/build/aarch64.tar.gz
+    - name: Upload artifacts of arm
+      uses: actions/upload-artifact@v1
       with:
         name: termux-arm-rootfs.tar.gz
-        path: ./termux/build/aarch64.tar.gz
+        path: ./termux/build/arm.tar.gz
+    - name: Upload artifacts of i686
+      uses: actions/upload-artifact@v1
       with:
         name: termux-i686-rootfs.tar.gz
-        path: ./termux/build/aarch64.tar.gz
+        path: ./termux/build/i686.tar.gz
+    - name: Upload artifacts of x86_64
+      uses: actions/upload-artifact@v1
       with:
         name: termux-x86_64-rootfs.tar.gz
-        path: ./termux/build/aarch64.tar.gz
+        path: ./termux/build/x86_64.tar.gz
 
