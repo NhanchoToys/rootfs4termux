@@ -1,55 +1,38 @@
-# This is a basic workflow to help you get started with Actions
-
 name: termux-build
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ termux ]
   pull_request:
     branches: [ termux ]
 
-
-# A workflow run is made up of one or more jobs that can run 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       version: 25
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Run aarch64 build
-      run: |
-        echo Start building.
-        echo Create directories.
-        mkdir -p termux/data/data/com.termux/files/usr termux/build
-        cp termux-symlink.py termux/data/data/com.termux/files/usr/
-        cd termux/data/data/com.termux/files
-        mkdir home
-        cd usr/
-        echo Download bootstrap package.
-        wget -qObootstrap-aarch64-v${version}.zip https://bintray.com/termux/bootstrap/download_file?file_path=bootstrap-aarch64-v${version}.zip
-        echo Decompress bootstrap package.
-        unzip bootstrap-aarch64-v${version}.zip > /dev/null
-        echo Delete bootstrap package.
-        rm -f bootstrap-aarch64-v${version}.zip
-        echo Change file permission.
-        chmod +x bin/* lib/apt/methods/* lib/bash/* libexec/termux/*
-        chmod -x lib/bash/Makefile.inc
-        echo Process symlink.
-        python3 termux-symlink.py
-        rm -f termux-symlink.py
-        cd ../../../../..
-        echo Build package.
-        tar -czf aarch64.tar.gz data
-        mv aarch64.tar.gz build
-        echo Clean build cache.
-        rm -rf data
-        cd ..
+      run: bash termux-build.sh aarch64
+    - name: Run arm build
+      run: bash termux-build.sh arm
+    - name: Run i686 build
+      run: bash termux-build.sh i686
+    - name: Run x86_64 build
+      run: bash termux-build.sh x86_64
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
         name: termux-aarch64-rootfs.tar.gz
         path: ./termux/build/aarch64.tar.gz
+      with:
+        name: termux-arm-rootfs.tar.gz
+        path: ./termux/build/aarch64.tar.gz
+      with:
+        name: termux-i686-rootfs.tar.gz
+        path: ./termux/build/aarch64.tar.gz
+      with:
+        name: termux-x86_64-rootfs.tar.gz
+        path: ./termux/build/aarch64.tar.gz
+
