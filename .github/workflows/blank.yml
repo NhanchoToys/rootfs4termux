@@ -24,7 +24,7 @@ jobs:
       run: |
         echo Start building.
         mkdir -p termux/data/data/com.termux/files/usr build
-        # cp termux-symlink.py termux/data/data/com.termux/files/usr/
+        cp termux-symlink.py termux/data/data/com.termux/files/usr/
         cd termux/data/data/com.termux/files
         mkdir home
         cd usr/
@@ -33,6 +33,10 @@ jobs:
         rm -f bootstrap-aarch64-v${version}.zip
         chmod +x bin/* lib/apt/methods/* lib/bash/* libexec/termux/*
         chmod -x lib/bash/Makefile.inc
-        # python termux-symlink.py
-    # outputs:
-    #   termux-aarch64-rootfs.tar.gz: build/aarch64.tar.gz
+        python3 termux-symlink.py
+        rm -f termux-symlink.py
+        cd ../../../../..
+        tar -czvf build/aarch64.tar.gz data
+        rm -rf data
+    outputs:
+      termux-aarch64-rootfs.tar.gz: build/aarch64.tar.gz
