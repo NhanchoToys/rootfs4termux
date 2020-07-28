@@ -13,32 +13,54 @@ jobs:
       version: 25
     steps:
     - uses: actions/checkout@v2
-    - name: Run aarch64 build
-      run: bash termux-build.sh aarch64
-    - name: Run arm build
-      run: bash termux-build.sh arm
-    - name: Run i686 build
-      run: bash termux-build.sh i686
-    - name: Run x86_64 build
-      run: bash termux-build.sh x86_64
+    - name: Run build
+      run: |
+          bash termux-build.sh aarch64 24
+          bash termux-build.sh arm 24
+          bash termux-build.sh i686 24
+          bash termux-build.sh x86_64 24
+          bash termux-build.sh aarch64 21
+          bash termux-build.sh arm 21
+          bash termux-build.sh i686 21
+          bash termux-build.sh x86_64 21
     - name: Upload artifacts of aarch64
       uses: actions/upload-artifact@v1
       with:
-        name: termux-aarch64-rootfs.tar.gz
-        path: ./termux/build/aarch64.tar.gz
+        name: rootfs-termux24-aarch64.tar.gz
+        path: ./termux/build/rootfs-termux24-aarch64.tar.gz
     - name: Upload artifacts of arm
       uses: actions/upload-artifact@v1
       with:
-        name: termux-arm-rootfs.tar.gz
-        path: ./termux/build/arm.tar.gz
+        name: rootfs-termux24-arm.tar.gz
+        path: ./termux/build/rootfs-termux24-arm.tar.gz
     - name: Upload artifacts of i686
       uses: actions/upload-artifact@v1
       with:
-        name: termux-i686-rootfs.tar.gz
-        path: ./termux/build/i686.tar.gz
+        name: rootfs-termux24-i686.tar.gz
+        path: ./termux/build/rootfs-termux24-i686.tar.gz
     - name: Upload artifacts of x86_64
       uses: actions/upload-artifact@v1
       with:
-        name: termux-x86_64-rootfs.tar.gz
-        path: ./termux/build/x86_64.tar.gz
+        name: rootfs-termux24-x86_64.tar.gz
+        path: ./termux/build/rootfs-termux24-x86_64.tar.gz
+    - name: Upload artifacts of aarch64(21)
+      uses: actions/upload-artifact@v1
+      with:
+        name: rootfs-termux21-aarch64.tar.gz
+        path: ./termux/build/rootfs-termux21-aarch64.tar.gz
+    - name: Upload artifacts of arm(21)
+      uses: actions/upload-artifact@v1
+      with:
+        name: rootfs-termux21-arm.tar.gz
+        path: ./termux/build/rootfs-termux21-arm.tar.gz
+    - name: Upload artifacts of i686(21)
+      uses: actions/upload-artifact@v1
+      with:
+        name: rootfs-termux21-i686.tar.gz
+        path: ./termux/build/rootfs-termux21-i686.tar.gz
+    - name: Upload artifacts of x86_64(21)
+      uses: actions/upload-artifact@v1
+      with:
+        name: rootfs-termux21-x86_64.tar.gz
+        path: ./termux/build/rootfs-termux21-x86_64.tar.gz
 
