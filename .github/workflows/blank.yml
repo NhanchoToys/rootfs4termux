@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      version: 25
+      version: 31
     steps:
     - uses: actions/checkout@v2
     - name: Run build
